@@ -1,1 +1,1 @@
-# Homefolder for C++
+# Homework folder for C++
