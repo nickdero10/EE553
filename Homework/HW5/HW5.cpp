@@ -10,7 +10,7 @@ using namespace std;
 // 2. for pi = 3.14159265358979323846
 // write your code here
 const double G = 6.674e-11;
-const double pi = 3.14159265358979323846;
+const double pi = M_PI;
 // ----- Use 3d vector struct -----
 // ------------------------------------
 struct Vec3d
@@ -35,11 +35,7 @@ ostream& operator <<(ostream& s, const Vec3d& v){
 // velocity using Vec3d: Vec3d
 // acceleration using Vec3d: Vec3d
 class Body {
-// define the Body variable here
-// name, orbit, mass (double), pos (Vec3d overload), v (Vec3d overload), a(Vec3d overload)
-// default body constructor set all variables to zero and string to "none"
-// name it Body()
-// write your code here
+
 private:
     string name;
     string orbit;
@@ -48,13 +44,18 @@ private:
     Vec3d v;
     Vec3d a;
 
-//non-default constructor to initialize body information.
+public:
+// define the Body variable here
+// name, orbit, mass (double), pos (Vec3d overload), v (Vec3d overload), a(Vec3d overload)
+// default body constructor set all variables to zero and string to "none"
+// name it Body()
+// write your code here
+    Body() : name("none"), orbit("none"), mass(0), pos{0,0,0}, v{0,0,0}, a{0,0,0} {}
+
+// non-default constructor to initialize body information.
 // name same as default constructor
 // name, orbit, mass, pos (Vec3d overload), v (Vec3d overload), a(Vec3d overload)
 // write your code here
-
-public:
-    Body() : name("none"), orbit("none"), mass(0), pos{0,0,0}, v{0,0,0}, a{0,0,0} {}
 
     Body(string name, string orbit, double mass, Vec3d pos, Vec3d v, Vec3d a)
         : name(name), orbit(orbit), mass(mass), pos(pos), v(v), a(a) {}
@@ -66,7 +67,7 @@ public:
 // write your code here
 
 friend ostream& operator <<(ostream& s, const Body& b){
-    return s << "Body Name : " << b.name << ", Orbit: " << b.orbit << ", Mass: " << b.mass << ", Position: (" << b.pos << "), Velocity: (" << b.v << "), Acceleration: (" << b.a << ")";
+    return s << "Body Name: " << b.name << ", Orbit: " << b.orbit << ", Mass: " << b.mass << ", Position: (" << b.pos << "), Velocity: (" << b.v << "), Acceleration: (" << b.a << ")\n";
 }
 // create setAccelerations() function that change the acceleration of planet in SolarSystem
 // this function should loop through Solarsystem object and change acceleration of each body planet
@@ -118,9 +119,6 @@ public:
             return;
         }
 
-
-
-
 // define variable you want to read some info will be saved and some will be used in calculation
 string line;
 // don't forget to skip first line since it contain title only
@@ -159,6 +157,7 @@ getline(solarfile, line);
         uniform_real_distribution<> rand(0,10);
         uniform_real_distribution<> ang(0, 2*pi);
         
+        cout << "Oribital Velocity And Centripetal Acceleration For Planets That Orbit The Sun\n" << endl;
 
         while (solarfile >> name >> orbit >> diam >> mass >> perhilion >> aphelion) {
             Vec3d pos, v, a;
@@ -180,7 +179,7 @@ getline(solarfile, line);
 
                 cout << "Body name: " << name << ", Orbit: " << orbit << endl;
                 cout << "Orbital velocity :" << velocity << endl;
-                cout << "Centripetal acceleration: " << acceleration << endl;
+                cout << "Centripetal acceleration: " << acceleration << "\n" << endl;
 
                 Body body(name, orbit, mass, pos, v, a);
                 bodies.push_back(body);
@@ -223,17 +222,19 @@ cout << "########" << endl;
 // ==================
 // Write your fullpath here to location where solarsystem.dat exist.
 SolarSystem s("C:/Users/nickd/EE553/Homework/HW5/solarsystem.dat");
+cout << "\nSolar System Data with Acceleration = 0:\n" << endl;
 cout << s;
 // After reading the file print calculation done on Solarsystem
 // overload << operator in SolarSystem class to print out variables as follows
 // Mercury, Sun, 3.3e+23, 8, 10, 4, -2147483648, -2147483648, 0, -1981977299, 1152671425, 0
 // Venus, Sun, 4.87e+24, 9, 1, 3, -2147483648, -2147483648, 0, 1021382959, -679782887, 0
-cout << "=============" << endl;
+cout << "=============\n" << endl;
 // add acceleration equal 100
 // Use function .stepForward() on object Solarsystem to set the new acceleration
 int acc = 5000;
 s.stepForward(acc);
 // print out the new solarsystem
+cout << "Solar System Data with Acceleration = 5000:\n" << endl;
 cout << s;
 cout << "====[ end ]====" << endl;
 cout << " " << endl;
